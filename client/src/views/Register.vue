@@ -3,7 +3,7 @@
     <h1>Join</h1>
     <p class="sub">Start writing in a few seconds.</p>
     <form @submit.prevent="handleRegister">
-      <input v-model="username" type="text" placeholder="Username" required />
+      <input v-model="fullName" type="text" placeholder="Full Name" required />
       <input v-model="email" type="email" placeholder="Email" required />
       <input v-model="password" type="password" placeholder="Password" required />
       <button type="submit">Create account</button>
@@ -18,7 +18,7 @@ import { ref } from 'vue';
 import { useRouter } from 'vue-router';
 import axios from 'axios';
 
-const username = ref('');
+const fullName = ref('');
 const email = ref('');
 const password = ref('');
 const error = ref('');
@@ -27,7 +27,7 @@ const router = useRouter();
 const handleRegister = async () => {
   try {
     await axios.post('https://blog-app-server-v3zf.onrender.com/api/users/register', {
-      username: username.value,
+      fullName: fullName.value,
       email: email.value,
       password: password.value
     });

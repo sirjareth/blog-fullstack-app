@@ -3,14 +3,15 @@
     <router-link to="/" class="brand">The Send-Off<span class="dot">.</span></router-link>
 
     <div v-if="authStore.isAuthenticated" class="nav-right">
-      <span class="Welcome">Trainee {{ authStore.username }}</span>
+      <span class="Welcome"> {{ authStore.fullName }}</span>
       <router-link to="/create" class="new-post">Write</router-link>
       <button @click="handleLogout">Sign out</button>
     </div>
 
     <div v-else class="nav-right">
+      <router-link :to="{ name: 'CreatePost' }" class="new-post">Write</router-link>
       <router-link to="/login">Sign in</router-link>
-      <router-link to="/register" class="new-post">Join</router-link>
+      <router-link to="/register">Join</router-link>
     </div>
   </nav>
 </template>

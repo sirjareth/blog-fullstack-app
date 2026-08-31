@@ -1,7 +1,7 @@
 <template>
   <article class="post-detail" v-if="post">
     <router-link to="/" class="back">← Back</router-link>
-    <p class="meta">{{ formatDate(post.createdAt) }} · By {{ post.author?.username }}</p>
+    <p class="meta">{{ formatDate(post.createdAt) }} · By {{ post.author?.fullName }}</p>
     <h1>{{ post.title }}</h1>
     <p class="content">{{ post.content }}</p>
 
@@ -38,7 +38,7 @@ const isEditing = ref(false);
 const editTitle = ref('');
 const editContent = ref('');
 
-const isAuthor = computed(() => post.value?.author?.username === authStore.username);
+const isAuthor = computed(() => post.value?.author?.fullName === authStore.fullName);
 
 const fetchPost = async () => {
   try {
@@ -146,7 +146,8 @@ onMounted(fetchPost);
   gap: 0.8rem;
 }
 
-.edit-form input, .edit-form textarea {
+.edit-form input,
+.edit-form textarea {
   padding: 0.8rem;
   border: 1px solid var(--line);
   border-radius: 8px;
@@ -158,7 +159,8 @@ onMounted(fetchPost);
   gap: 0.8rem;
 }
 
-.edit, .cancel {
+.edit,
+.cancel {
   background: transparent;
   border: 1px solid var(--line);
   padding: 0.6rem 1.2rem;

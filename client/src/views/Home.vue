@@ -5,13 +5,23 @@
       <h1>What our trainees say</h1>
     </header>
 
-    <div v-if="posts.length === 0" class="empty">
+    <div v-if="loading" class="status">
+      Loading reflections...
+    </div>
+
+    <div v-else-if="error" class="status error">
+      We couldn't load the reflections right now. Please try again later.
+    </div>
+
+    <div v-else-if="posts.length === 0" class="status empty">
       No reflections shared yet. Be the first.
     </div>
 
-    <div class="post-list">
+    <div v-else class="post-list">
       <PostCard v-for="post in posts" :key="post._id" :post="post" />
     </div>
+
+
   </div>
 </template>
 
@@ -21,13 +31,21 @@ import axios from 'axios';
 import PostCard from '../components/PostCard.vue';
 
 const posts = ref([]);
+const loading = ref(true);
+const error = ref(false);
 
 const fetchPosts = async () => {
   try {
-    const res = await axios.get('https://blog-app-server-v3zf.onrender.com/api/posts');
+    const res = await axios.get(
+      'https://blog-app-server-v3zf.onrender.com/api/posts'
+    );
+
     posts.value = res.data;
   } catch (err) {
     console.error(err);
+    error.value = true;
+  } finally {
+    loading.value = false;
   }
 };
 
@@ -57,10 +75,23 @@ onMounted(fetchPosts);
   font-size: 2.6rem;
 }
 
-.empty {
+.status {
+  padding: 3rem 1.5rem;
+  text-align: center;
+  border: 1px solid var(--sage);
+  border-radius: 12px;
+  margin-bottom: 2rem;
   color: var(--sage);
+  background: rgba(255, 255, 255, 0.5);
+}
+
+.status.empty {
   font-style: italic;
-  padding: 2rem 0;
+}
+
+.status.error {
+  color: #a44;
+  border-color: #d8aaaa;
 }
 
 .post-list {

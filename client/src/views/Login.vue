@@ -14,13 +14,14 @@
 
 <script setup>
 import { ref } from 'vue';
-import { useRouter } from 'vue-router';
+import { useRoute, useRouter } from 'vue-router';
 import { useAuthStore } from '../stores/auth';
 import axios from 'axios';
 
 const email = ref('');
 const password = ref('');
 const error = ref('');
+const route = useRoute();
 const router = useRouter();
 const authStore = useAuthStore();
 
@@ -30,8 +31,15 @@ const handleLogin = async () => {
       email: email.value,
       password: password.value
     });
-    authStore.login(res.data.token, res.data.username);
-    router.push('/');
+    authStore.login(res.data.token, res.data.fullName);
+
+    const redirect = typeof route.query.redirect === 'string'
+      && route.query.redirect.startsWith('/')
+      && !route.query.redirect.startsWith('//')
+      ? route.query.redirect
+      : '/';
+
+    router.push(redirect);
   } catch (err) {
     error.value = err.response?.data?.message || 'Login failed';
   }

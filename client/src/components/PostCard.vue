@@ -1,7 +1,7 @@
 <template>
   <router-link :to="`/post/${post._id}`" class="post-card">
     <span class="rule" />
-    <div class="meta">{{ formatDate(post.createdAt) }} · {{ post.author?.username }}</div>
+    <div class="meta">{{ formatDate(post.createdAt) }} · {{ post.author?.fullName }}</div>
     <h3>{{ post.title }}</h3>
     <p>{{ post.content.substring(0, 140) }}{{ post.content.length > 140 ? '…' : '' }}</p>
     <span class="read-more">Read message →</span>

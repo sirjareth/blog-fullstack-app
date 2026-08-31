@@ -24,7 +24,8 @@ const routes = [
   {
     path: '/create',
     name: 'CreatePost',
-    component: CreatePost
+    component: CreatePost,
+    meta: { requiresAuth: true }
   },
   {
     path: '/post/:id',
@@ -36,6 +37,19 @@ const routes = [
 const router = createRouter({
   history: createWebHistory(),
   routes
+});
+
+router.beforeEach((to) => {
+  if (!to.meta.requiresAuth) return true;
+
+  const token = localStorage.getItem('token');
+
+  if (token) return true;
+
+  return {
+    name: 'Login',
+    query: { redirect: to.fullPath }
+  };
 });
 
 export default router;

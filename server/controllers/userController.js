@@ -6,7 +6,7 @@ const { errorHandler } = require('../middleware/auth');
 // Register
 module.exports.register = async (req, res, next) => {
   try {
-    const { username, email, password } = req.body;
+    const { fullName, email, password } = req.body;
 
     // Check if user already exists
     const existingUser = await User.findOne({ email });
@@ -18,7 +18,7 @@ module.exports.register = async (req, res, next) => {
     const hashedPassword = await bcrypt.hash(password, 10);
 
     // Create user
-    const user = new User({ username, email, password: hashedPassword });
+    const user = new User({ fullName, email, password: hashedPassword });
     await user.save();
 
     res.status(201).json({ message: 'User registered successfully' });
@@ -47,7 +47,7 @@ module.exports.login = async (req, res, next) => {
     // Create token
     const token = createAccessToken(user);
 
-    res.status(200).json({ token, username: user.username });
+    res.status(200).json({ token, fullName: user.username });
   } catch (err) {
     next(err);
   }
