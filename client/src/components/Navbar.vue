@@ -37,6 +37,9 @@ nav {
   padding: 1.5rem 2.5rem;
   border-bottom: 1px solid var(--line);
   background: var(--paper);
+  position: sticky;
+  top: 0;
+  z-index: 1000;
 }
 
 .brand {
