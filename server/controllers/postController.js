@@ -22,7 +22,7 @@ module.exports.createPost = async (req, res, next) => {
 // Get All Posts
 module.exports.getAllPosts = async (req, res, next) => {
   try {
-    const posts = await Post.find().populate('author', 'username email');
+    const posts = await Post.find().populate('author', 'fullName email');
     res.status(200).json(posts);
   } catch (err) {
     next(err);

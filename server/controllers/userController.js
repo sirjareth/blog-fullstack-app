@@ -47,7 +47,7 @@ module.exports.login = async (req, res, next) => {
     // Create token
     const token = createAccessToken(user);
 
-    res.status(200).json({ token, fullName: user.username });
+    res.status(200).json({ token, fullName: user.fullName });
   } catch (err) {
     next(err);
   }
